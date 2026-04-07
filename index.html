@@ -238,8 +238,16 @@ footer{background:var(--blk);padding:54px 0 26px}
 .foot-legal{font-size:.71rem;color:rgba(255,255,255,.22)}
 
 /* FADE IN */
-.fi{opacity:0;transform:translateY(26px);transition:opacity .6s ease,transform .6s ease}
+.fi{opacity:0;transform:translateY(22px);animation:fadeIn .7s ease forwards}
 .fi.vis{opacity:1;transform:translateY(0)}
+/* Fallback: if JS fails, still show content after 0.5s */
+.fi{animation:fadeIn .8s ease .3s both}
+@keyframes fadeIn{to{opacity:1;transform:translateY(0)}}
+/* Stagger children */
+.svc-grid .fi:nth-child(1){animation-delay:.1s}
+.svc-grid .fi:nth-child(2){animation-delay:.2s}
+.svc-grid .fi:nth-child(3){animation-delay:.3s}
+.svc-grid .fi:nth-child(4){animation-delay:.4s}
 
 /* RESPONSIVE */
 @media(max-width:1024px){
@@ -534,7 +542,7 @@ footer{background:var(--blk);padding:54px 0 26px}
         <div class="ci-list">
           <div class="ci"><div class="ci-icon">📞</div><div><div class="ci-lbl">Telefono</div><div class="ci-val"><a href="tel:+393468255363">346 825 53 63</a></div></div></div>
           <div class="ci"><div class="ci-icon">🌐</div><div><div class="ci-lbl">Sito Web</div><div class="ci-val">novaservicesardegna.com</div></div></div>
-          <div class="ci"><div class="ci-icon">📧</div><div><div class="ci-lbl">Email</div><div class="ci-val"><a href="mailto:info@novaservicesardegna.com">info@novaservicesardegna.com</a></div></div></div>
+          <div class="ci"><div class="ci-icon">📧</div><div><div class="ci-lbl">Email</div><div class="ci-val"><a href="/cdn-cgi/l/email-protection#0e676068614e6061786f7d6b7c78676d6b7d6f7c6a6b69606f206d6163"><span class="__cf_email__" data-cfemail="442d2a222b042a2b3225372136322d27213725362021232a256a272b29">[email&#160;protected]</span></a></div></div></div>
           <div class="ci"><div class="ci-icon">📍</div><div><div class="ci-lbl">Sede Legale</div><div class="ci-val">Via Grecale 13, Cagliari</div></div></div>
           <div class="ci"><div class="ci-icon">🏛️</div><div><div class="ci-lbl">Partita IVA</div><div class="ci-val">03588010920</div></div></div>
           <div class="ci"><div class="ci-icon">🕐</div><div><div class="ci-lbl">Disponibilità</div><div class="ci-val">Lun–Ven: 08:00–18:00</div></div></div>
@@ -594,7 +602,7 @@ footer{background:var(--blk);padding:54px 0 26px}
         <div class="foot-ttl">Contatti</div>
         <ul class="foot-links">
           <li><a href="tel:+393468255363">346 825 53 63</a></li>
-          <li><a href="mailto:info@novaservicesardegna.com">info@novaservicesardegna.com</a></li>
+          <li><a href="/cdn-cgi/l/email-protection#cea7a0a8a18ea0a1b8afbdabbcb8a7adabbdafbcaaaba9a0afe0ada1a3"><span class="__cf_email__" data-cfemail="f891969e97b896978e998b9d8a8e919b9d8b998a9c9d9f9699d69b9795">[email&#160;protected]</span></a></li>
           <li><a href="#">Via Grecale 13, Cagliari</a></li>
           <li><a href="#contatti" style="color:var(--g4);font-weight:600">→ Richiedi Informazioni</a></li>
         </ul>
@@ -607,15 +615,18 @@ footer{background:var(--blk);padding:54px 0 26px}
   </div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // Mobile menu
 document.getElementById('ham').addEventListener('click',()=>document.getElementById('mmenu').classList.toggle('open'));
 function cm(){document.getElementById('mmenu').classList.remove('open')}
 
 // Scroll fade-in
+// Immediately show all elements after short delay as fallback
+setTimeout(()=>{document.querySelectorAll('.fi').forEach(el=>el.classList.add('vis'))}, 400);
+// Also use IntersectionObserver for staggered effect
 const obs=new IntersectionObserver((es)=>{
-  es.forEach((e,i)=>{if(e.isIntersecting)setTimeout(()=>e.target.classList.add('vis'),i*65)})
-},{threshold:.08,rootMargin:'0px 0px -30px 0px'});
+  es.forEach((e,i)=>{if(e.isIntersecting)setTimeout(()=>e.target.classList.add('vis'),i*50)})
+},{threshold:0,rootMargin:'0px 0px 0px 0px'});
 document.querySelectorAll('.fi').forEach(el=>obs.observe(el));
 
 // Active nav highlight
@@ -642,24 +653,14 @@ function runCounters(){
     })(performance.now());
   });
 }
-new IntersectionObserver(e=>{if(e[0].isIntersecting){runCounters();e[0].target._obs.disconnect()}},{threshold:.3})
-  .observe(Object.assign(document.querySelector('.numbers'),{_obs:new IntersectionObserver(()=>{})}));
-// simpler approach:
 const numSec=document.querySelector('.numbers');
-const numObs=new IntersectionObserver(es=>{if(es[0].isIntersecting){runCounters();numObs.disconnect()}},{threshold:.3});
-numObs.observe(numSec);
+if(numSec){
+  const numObs=new IntersectionObserver(es=>{if(es[0].isIntersecting){runCounters();numObs.disconnect()}},{threshold:.3});
+  numObs.observe(numSec);
+}
 
 // Form
 function submitForm(){
   const nome=document.getElementById('f-nome').value.trim();
   const ente=document.getElementById('f-ente').value.trim();
-  const email=document.getElementById('f-email').value.trim();
-  if(!nome||!ente||!email){alert('Compila i campi obbligatori: Nome, Ente/Comune ed Email.');return}
-  const btn=document.getElementById('f-btn');
-  btn.innerHTML='✓ Richiesta inviata!';
-  btn.style.cssText='background:var(--g3);border-color:var(--g3);width:100%;justify-content:center;padding:15px;opacity:.85;cursor:default';
-  btn.disabled=true;
-}
-</script>
-</body>
-</html>
+  const email=document.getEl
