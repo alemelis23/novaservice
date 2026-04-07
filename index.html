@@ -330,8 +330,8 @@ footer{background:var(--blk);padding:54px 0 26px}
       <a href="#servizi" class="btn btn--outline">Scopri i Servizi</a>
     </div>
     <div class="hero-stats">
-      <div><div class="hs-num counter" data-target="10" data-suffix="+">0+</div><div class="hs-lbl">Anni di attività</div></div>
-      <div><div class="hs-num counter" data-target="13" data-suffix="+">0+</div><div class="hs-lbl">Comuni serviti</div></div>
+      <div><div class="hs-num counter" data-target="10" data-suffix="+">0</div><div class="hs-lbl">Anni di attività</div></div>
+      <div><div class="hs-num counter" data-target="13" data-suffix="+">0</div><div class="hs-lbl">Comuni serviti</div></div>
       <div><div class="hs-num counter" data-target="4" data-suffix="">0</div><div class="hs-lbl">Aree di servizio</div></div>
     </div>
   </div>
@@ -379,8 +379,8 @@ footer{background:var(--blk);padding:54px 0 26px}
 <section class="numbers">
   <div class="container">
     <div class="num-grid">
-      <div class="num-item fi"><div class="num-val counter" data-target="10" data-suffix="+">0+</div><div class="num-lbl">Anni di attività</div></div>
-      <div class="num-item fi"><div class="num-val counter" data-target="13" data-suffix="+">0+</div><div class="num-lbl">Comuni serviti</div></div>
+      <div class="num-item fi"><div class="num-val counter" data-target="10" data-suffix="+">0</div><div class="num-lbl">Anni di attività</div></div>
+      <div class="num-item fi"><div class="num-val counter" data-target="13" data-suffix="+">0</div><div class="num-lbl">Comuni serviti</div></div>
       <div class="num-item fi"><div class="num-val counter" data-target="4" data-suffix="">0</div><div class="num-lbl">Tipologie di servizio</div></div>
       <div class="num-item fi"><div class="num-val" style="color:var(--g4)">100%</div><div class="num-lbl">Clienti soddisfatti</div></div>
     </div>
@@ -657,7 +657,7 @@ window.addEventListener('scroll',()=>{
 function runCounters(){
   document.querySelectorAll('.counter').forEach(el=>{
     const target=+el.dataset.target;
-    const suffix=el.dataset.suffix||'+';
+    const suffix=(el.dataset.suffix !== undefined) ? el.dataset.suffix : '+';
     let st=null;
     (function step(ts){
       if(!st)st=ts;
@@ -668,10 +668,25 @@ function runCounters(){
     })(performance.now());
   });
 }
-const numSec=document.querySelector('.numbers');
+// Avvia counter appena possibile
+var countersRun = false;
+function tryRunCounters(){
+  if(countersRun) return;
+  countersRun = true;
+  runCounters();
+}
+
+var numSec = document.querySelector('.numbers');
 if(numSec){
-  const numObs=new IntersectionObserver(es=>{if(es[0].isIntersecting){runCounters();numObs.disconnect()}},{threshold:.3});
+  // Prova con IntersectionObserver (threshold basso)
+  var numObs = new IntersectionObserver(function(es){
+    if(es[0].isIntersecting){ tryRunCounters(); numObs.disconnect(); }
+  },{threshold:0.05});
   numObs.observe(numSec);
+  // Fallback: se dopo 2s non ha ancora girato, fallo partire comunque
+  setTimeout(tryRunCounters, 2000);
+} else {
+  setTimeout(tryRunCounters, 1000);
 }
 
 // Form
