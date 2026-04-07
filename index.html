@@ -60,9 +60,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;-webkit-tap-highlight-color:
 .nav-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
 .nav-phone{display:flex;align-items:center;gap:7px;color:rgba(255,255,255,.75);font-size:.84rem;font-weight:600;padding:7px 13px;border-radius:4px;border:1px solid rgba(255,255,255,.15);transition:all .2s}
 .nav-phone:hover{color:#fff;border-color:rgba(255,255,255,.35);background:rgba(255,255,255,.08)}
-.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:10px;z-index:200;position:relative;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:12px;z-index:999;position:relative;-webkit-tap-highlight-color:rgba(0,0,0,0);touch-action:manipulation}
 .hamburger span{display:block;width:23px;height:2px;background:#fff;border-radius:2px;transition:all .3s}
 .mobile-menu{display:none;position:fixed;top:70px;left:0;right:0;background:var(--g1);padding:20px 28px 28px;z-index:150;border-top:1px solid rgba(255,255,255,.08);max-height:calc(100vh - 70px);overflow-y:auto}
+
 .mobile-menu.open{display:block}
 .mobile-menu a{display:block;color:rgba(255,255,255,.82);font-size:.97rem;font-weight:500;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.07);transition:color .2s}
 .mobile-menu a:hover{color:var(--g4)}
@@ -290,10 +291,10 @@ footer{background:var(--blk);padding:54px 0 26px}
       </div>
     </a>
     <ul class="nav-links">
-      <li><a href="#home">Home</a></li>
-      <li><a href="#azienda">Azienda</a></li>
-      <li><a href="#servizi">Servizi</a></li>
-      <li><a href="#esperienza">Esperienza</a></li>
+      <li><a href="#home" onclick="document.getElementById('mmenu').classList.remove('open')">Home</a></li>
+      <li><a href="#azienda" onclick="document.getElementById('mmenu').classList.remove('open')">Azienda</a></li>
+      <li><a href="#servizi" onclick="document.getElementById('mmenu').classList.remove('open')">Servizi</a></li>
+      <li><a href="#esperienza" onclick="document.getElementById('mmenu').classList.remove('open')">Esperienza</a></li>
       <li><a href="#contatti">Contatti</a></li>
     </ul>
     <div class="nav-right">
@@ -303,16 +304,16 @@ footer{background:var(--blk);padding:54px 0 26px}
       </a>
       <a href="#contatti" class="btn btn--lime">Richiedi Informazioni</a>
     </div>
-    <button class="hamburger" id="ham" aria-label="Menu"><span></span><span></span><span></span></button>
+    <button class="hamburger" id="ham" onclick="document.getElementById('mmenu').classList.toggle('open')" aria-label="Menu"><span></span><span></span><span></span></button>
   </div>
   <div class="mobile-menu" id="mmenu">
-    <a href="#home" onclick="cm()">Home</a>
-    <a href="#azienda" onclick="cm()">Azienda</a>
-    <a href="#servizi" onclick="cm()">Servizi</a>
-    <a href="#esperienza" onclick="cm()">Esperienza</a>
-    <a href="#contatti" onclick="cm()">Contatti</a>
-    <a href="tel:+393468255363" onclick="cm()" style="color:var(--g4);font-weight:700">📞 346 825 53 63</a>
-    <a href="#contatti" class="btn btn--lime" onclick="cm()">Richiedi Informazioni</a>
+    <a href="#home" onclick="document.getElementById('mmenu').classList.remove('open')">Home</a>
+    <a href="#azienda" onclick="document.getElementById('mmenu').classList.remove('open')">Azienda</a>
+    <a href="#servizi" onclick="document.getElementById('mmenu').classList.remove('open')">Servizi</a>
+    <a href="#esperienza" onclick="document.getElementById('mmenu').classList.remove('open')">Esperienza</a>
+    <a href="#contatti" onclick="document.getElementById('mmenu').classList.remove('open')">Contatti</a>
+    <a href="tel:+393468255363" style="color:var(--g4);font-weight:700">📞 346 825 53 63</a>
+    <a href="#contatti" class="btn btn--lime">Richiedi Informazioni</a>
   </div>
 </nav>
 
@@ -330,9 +331,9 @@ footer{background:var(--blk);padding:54px 0 26px}
       <a href="#servizi" class="btn btn--outline">Scopri i Servizi</a>
     </div>
     <div class="hero-stats">
-      <div><div class="hs-num counter" data-target="10" data-suffix="+">10</div><div class="hs-lbl">Anni di attività</div></div>
-      <div><div class="hs-num counter" data-target="13" data-suffix="+">13</div><div class="hs-lbl">Comuni serviti</div></div>
-      <div><div class="hs-num counter" data-target="4" data-suffix="">4</div><div class="hs-lbl">Aree di servizio</div></div>
+      <div><div class="hs-num counter" data-target="10" data-suffix="+">0</div><div class="hs-lbl">Anni di attività</div></div>
+      <div><div class="hs-num counter" data-target="13" data-suffix="+">0</div><div class="hs-lbl">Comuni serviti</div></div>
+      <div><div class="hs-num counter" data-target="4" data-suffix="">0</div><div class="hs-lbl">Aree di servizio</div></div>
     </div>
   </div>
   <div class="hero-caption"><span>Flotta operativa NO.VA. Service — Sardegna</span></div>
@@ -379,9 +380,9 @@ footer{background:var(--blk);padding:54px 0 26px}
 <section class="numbers">
   <div class="container">
     <div class="num-grid">
-      <div class="num-item fi"><div class="num-val counter" data-target="10" data-suffix="+">11</div><div class="num-lbl">Anni di attività</div></div>
-      <div class="num-item fi"><div class="num-val counter" data-target="13" data-suffix="+">13</div><div class="num-lbl">Comuni serviti</div></div>
-      <div class="num-item fi"><div class="num-val counter" data-target="4" data-suffix="">4</div><div class="num-lbl">Tipologie di servizio</div></div>
+      <div class="num-item fi"><div class="num-val counter" data-target="10" data-suffix="+">0</div><div class="num-lbl">Anni di attività</div></div>
+      <div class="num-item fi"><div class="num-val counter" data-target="13" data-suffix="+">0</div><div class="num-lbl">Comuni serviti</div></div>
+      <div class="num-item fi"><div class="num-val counter" data-target="4" data-suffix="">0</div><div class="num-lbl">Tipologie di servizio</div></div>
       <div class="num-item fi"><div class="num-val" style="color:var(--g4)">100%</div><div class="num-lbl">Clienti soddisfatti</div></div>
     </div>
   </div>
@@ -609,7 +610,7 @@ footer{background:var(--blk);padding:54px 0 26px}
       </div>
     </div>
     <div class="foot-bottom">
-      <div class="foot-legal">© 2026 NO.VA. Service S.r.l. · P.IVA 03588010920 · Tutti i diritti riservati</div>
+      <div class="foot-legal">© 2025 NO.VA. Service S.r.l. · P.IVA 03588010920 · Tutti i diritti riservati</div>
       <div class="foot-legal">Spazzamento stradale Sardegna · Verde pubblico Sardegna · Igiene urbana PA</div>
     </div>
   </div>
@@ -617,23 +618,7 @@ footer{background:var(--blk);padding:54px 0 26px}
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // Mobile menu
-// Mobile menu - versione robusta
-var hamBtn = document.getElementById('ham');
-var mMenu = document.getElementById('mmenu');
-if(hamBtn && mMenu){
-  hamBtn.addEventListener('click', function(e){
-    e.preventDefault();
-    e.stopPropagation();
-    mMenu.classList.toggle('open');
-  }, {passive:false});
-  // Chiudi cliccando fuori
-  document.addEventListener('click', function(e){
-    if(!hamBtn.contains(e.target) && !mMenu.contains(e.target)){
-      mMenu.classList.remove('open');
-    }
-  });
-}
-function cm(){if(mMenu)mMenu.classList.remove('open')}
+// Mobile menu gestito inline
 
 // Scroll fade-in
 // Immediately show all elements after short delay as fallback
